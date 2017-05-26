@@ -3,8 +3,8 @@ import datetime
 from django.conf import settings
 from pkg_resources import parse_version
 
-import django
-if parse_version(django.__version__) >= '1.9':
+
+if parse_version(django.get_version()) >= parse_version('1.9'):
     import collections
 else:
     from django.utils.datastructures import SortedDict
@@ -30,7 +30,7 @@ class RemoteField(object):
         self.form_initial_data = form_initial_data
 
     def as_dict(self):
-        if parse_version(django.__version__) >= '1.9':
+        if parse_version(django.__version__) >= parse_version('1.9'):
             field_dict = collections.OrderedDict()
         else:
             field_dict = SortedDict()
