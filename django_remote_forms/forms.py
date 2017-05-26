@@ -1,11 +1,11 @@
 # Making it compatible for django version > 1.9
-import django
-from pkg_resources import parse_version
-
-if parse_version(django.get_version()) >= parse_version('1.9'):
-   import collections
-else:
-   from django.utils.datastructures import SortedDict
+#import django
+#from pkg_resources import parse_version
+#
+#if parse_version(django.get_version()) >= parse_version('1.9'):
+#   import collections
+#else:
+#   from django.utils.datastructures import SortedDict
 
 from django_remote_forms import fields, logger
 from django_remote_forms.utils import resolve_promise
@@ -49,11 +49,13 @@ class RemoteForm(object):
         # Extend exclude list from include list
         self.excluded_fields |= (self.included_fields - self.all_fields)
 
+        #if not self.ordered_fields:
+        #    if self.form.fields.keyOrder:
+        #        self.ordered_fields = self.form.fields.keyOrder
+        #    else:
+        #        self.ordered_fields = self.form.fields.keys()
         if not self.ordered_fields:
-            if self.form.fields.keyOrder:
-                self.ordered_fields = self.form.fields.keyOrder
-            else:
-                self.ordered_fields = self.form.fields.keys()
+               self.ordered_fields = self.form.fields.keys()
 
         self.fields = []
 
@@ -106,21 +108,23 @@ class RemoteForm(object):
             }
         }
         """
-        if parse_version(django.get_versions()) >= parse_version('1.9'):
-           form_dict = collections.OrderedDict()
-        else:
-           form_dict = SortedDict()
-         
+        #if parse_version(django.get_version()) >= parse_version('1.9'):
+        #   form_dict = collections.OrderedDict()
+        #else:
+        #   form_dict = SortedDict()
+        form_dict = {}
+
         form_dict['title'] = self.form.__class__.__name__
         form_dict['non_field_errors'] = self.form.non_field_errors()
         form_dict['label_suffix'] = self.form.label_suffix
         form_dict['is_bound'] = self.form.is_bound
         form_dict['prefix'] = self.form.prefix
 
-        if django.get_versions() >= '1.9':
-            form_dict['fields'] = collections.OrderedDict()
-        else:
-            form_dict['fields'] = SortedDict()
+        #if parse_version(django.get_version()) >= parse_version('1.9'):
+        #    form_dict['fields'] = collections.OrderedDict()
+        #else:
+        #    form_dict['fields'] = SortedDict()
+        form_dict['fields'] = {}
 
         form_dict['errors'] = self.form.errors
         form_dict['fieldsets'] = getattr(self.form, 'fieldsets', [])
