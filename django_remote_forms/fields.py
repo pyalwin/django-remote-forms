@@ -3,7 +3,7 @@ import datetime
 from django.conf import settings
 from pkg_resources import parse_version
 
-
+import django
 if parse_version(django.get_version()) >= parse_version('1.9'):
     import collections
 else:
