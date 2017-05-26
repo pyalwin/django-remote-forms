@@ -1,7 +1,8 @@
 # Making it compatible for django version > 1.9
 import django
+from pkg_resources import parse_version
 
-if django.get_version() >= '1.9':
+if parse_version(django.get_version()) >= parse_version('1.9'):
    import collections
 else:
    from django.utils.datastructures import SortedDict
@@ -105,7 +106,7 @@ class RemoteForm(object):
             }
         }
         """
-        if django.get_versions() >= '1.9':
+        if parse_version(django.get_versions()) >= parse_version('1.9'):
            form_dict = collections.OrderedDict()
         else:
            form_dict = SortedDict()
